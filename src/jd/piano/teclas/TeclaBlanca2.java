@@ -1,4 +1,18 @@
 package jd.piano.teclas;
 
-public class TeclaBlanca2 {
+public class TeclaBlanca2 extends TeclaBlanca{
+    TeclaBlanca2(int n) {
+        super(n);
+        throw new UnsupportedOperationException("Sin programar");
+    }
+
+    @Override
+    protected int[] getVerticesX() {
+        throw new UnsupportedOperationException("Sin programar");
+    }
+
+    @Override
+    protected int[] getVerticesY() {
+        throw new UnsupportedOperationException("Sin programar");
+    }
 }
