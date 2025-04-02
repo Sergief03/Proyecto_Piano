@@ -10,73 +10,73 @@ public abstract class Tecla implements Pulsable{
     private Graphics graphics;
 
     Tecla(int n){
-        throw new UnsupportedOperationException("Sin programar");
+        this.posicion=null;
+        this.nota=n;
+        this.pulsada=false;
+        this.colorPulsada=null;
     }
 
     public int getNumeroNota(){
-        throw new UnsupportedOperationException("Sin programar");
+        return this.nota;
     }
 
-    protected abstract int[] getVerticesX(){
-        throw new UnsupportedOperationException("Sin programar");
-    }
+    protected abstract int[] getVerticesX();
 
-    protected abstract int[] getVerticesY(){
-        throw new UnsupportedOperationException("Sin programar");
-    }
+    protected abstract int[] getVerticesY();
 
     @Override
     public void pulsar() {
-        throw new UnsupportedOperationException("Sin programar");
+        this.pulsada=true;
     }
 
     @Override
     public void soltar() {
-        throw new UnsupportedOperationException("Sin programar");
+        this.pulsada=false;
     }
 
     @Override
     public boolean estaPulsado() {
-        throw new UnsupportedOperationException("Sin programar");
+        return this.pulsada;
     }
 
     @Override
     public void setColorPulsado(Color c) {
-        throw new UnsupportedOperationException("Sin programar");
+        this.colorPulsada=c;
     }
 
     @Override
     public Color getColorPulsado() {
-        throw new UnsupportedOperationException("Sin programar");
+        return this.colorPulsada;
     }
 
     @Override
-    public Color getColorNoPulsado() {
-        throw new UnsupportedOperationException("Sin programar");
-    }
+    public abstract Color getColorNoPulsado();
 
     @Override
     public void setPosicion(int x, int y) {
-        throw new UnsupportedOperationException("Sin programar");
+        this.posicion=new Point(x,y);
     }
 
     @Override
     public void setGraphics(Graphics g) {
-        throw new UnsupportedOperationException("Sin programar");
+        this.graphics=g;
     }
 
     @Override
-    public void dibujar() {
-        throw new UnsupportedOperationException("Sin programar");
+    public void dibujar(){
+        if (this.posicion==null||this.graphics==null){
+            throw new IllegalStateException("Hay que llamar a setPosicion y setGraphics antes de llamar al metodo dibujar");
+        }
+        this.graphics.setColor(getColor());
+        this.graphics.fillPolygon(getVerticesX(),getVerticesY(),getVerticesX().length);
+        this.graphics.setColor(Color.BLACK);
+        this.graphics.drawPolygon(getVerticesX(),getVerticesY(),getVerticesX().length);
+
     }
 
     @Override
-    public int getAnchura() {
-        throw new UnsupportedOperationException("Sin programar");
-    }
+    protected abstract int[] getAnchura();
 
     @Override
-    public int getAltura() {
-        throw new UnsupportedOperationException("Sin programar");
-    }
+    protected abstract int[] getAltura();
 }

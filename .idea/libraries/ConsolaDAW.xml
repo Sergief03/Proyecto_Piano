@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ConsolaDAW">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Archivos importantes/Programacion/ConsolaDAW.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
