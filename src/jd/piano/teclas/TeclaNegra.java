@@ -7,27 +7,30 @@ public class TeclaNegra extends Tecla{
     public static final int ALTURA = 50;
     TeclaNegra(int n){
         super(n);
-        throw new UnsupportedOperationException("Sin programar");
     }
     @Override
     public Color getColorNoPulsado() {
-        throw new UnsupportedOperationException("Sin programar");
+        return Color.BLACK;
     }
     @Override
     public int getAnchura() {
-        throw new UnsupportedOperationException("Sin programar");
+        return this.ANCHURA;
     }
     @Override
     public int getAltura() {
-        throw new UnsupportedOperationException("Sin programar");
+        return this.ALTURA;
     }
     @Override
     protected int[] getVerticesX() {
-        throw new UnsupportedOperationException("Sin programar");
+        int x = this.posicion.x;
+        int anchura = this.getAnchura();
+        return new int[]{x, x, x + anchura, x + anchura};
     }
 
     @Override
     protected int[] getVerticesY() {
-        throw new UnsupportedOperationException("Sin programar");
+        int y = this.posicion.y;
+        int altura = this.getAltura();
+        return new int[]{y, y + altura, y + altura, y};
     }
 }
