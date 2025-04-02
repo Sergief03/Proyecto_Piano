@@ -8,18 +8,22 @@ public class TeclaNegra extends Tecla{
     TeclaNegra(int n){
         super(n);
     }
+
     @Override
     public Color getColorNoPulsado() {
         return Color.BLACK;
     }
+
     @Override
     public int getAnchura() {
         return this.ANCHURA;
     }
+
     @Override
     public int getAltura() {
         return this.ALTURA;
     }
+
     @Override
     protected int[] getVerticesX() {
         int x = this.posicion.x;
