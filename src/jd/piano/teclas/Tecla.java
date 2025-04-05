@@ -74,9 +74,11 @@ public abstract class Tecla implements Pulsable{
 
     }
 
-    @Override
-    protected abstract int[] getAnchura();
+    public  int getAnchura(){
+        return this.posicion.x;
+    }
 
-    @Override
-    protected abstract int[] getAltura();
+    public int getAltura(){
+        return this.posicion.y;
+    }
 }
