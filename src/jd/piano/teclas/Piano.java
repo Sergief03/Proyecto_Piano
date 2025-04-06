@@ -9,15 +9,16 @@ public abstract class Piano implements ElementoVisual{
     private Position posicion;
     private Graphics graphics;
     public Piano(){
-        throw new UnsupportedOperationException("Sin programar");
+        this.teclaInicial = 0;
+        this.teclaFinal = 0;
+        this.posicion = null;
+        this.graphics = null;
     }
-    public abstract Tecla getTecla(int canal, int nota){
-        throw new UnsupportedOperationException("Sin programar");
-    }
+    public abstract Tecla getTecla(int canal, int nota);
     public int getTeclaInicial(){
-        throw new UnsupportedOperationException("Sin programar");
+        return this.teclaInicial;
     }
     public int getTeclaFinal(){
-        throw new UnsupportedOperationException("Sin programar");
+        return this.teclaFinal;
     }
 }
