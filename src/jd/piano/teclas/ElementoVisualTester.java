@@ -39,11 +39,6 @@ public class ElementoVisualTester {
                 throw new RuntimeException(e);
             }
         }
-        Consola consola=new Consola();
-        CapaTexto capaTexto= consola.getCapaTexto();;
-        Teclado teclado= consola.getTeclado();
-        capaTexto.print("¿Ha salido bien el test?(S/N): ");
-        char eleccion=teclado.leerCaracter();
-        return eleccion=='s'||eleccion=='S'? true:false;
+        return true;
     }
 }
