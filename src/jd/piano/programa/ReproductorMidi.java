@@ -9,90 +9,83 @@ import java.io.File;
 import java.io.IOException;
 
 public class ReproductorMidi implements Receiver {
-    private static final Color[] COLORES= {
-            new Color(255, 0, 0),
-            new Color(255, 64, 0),
-            new Color(255, 128, 0),
-            new Color(255, 191, 0),
-            new Color(255, 255, 0),
-            new Color(191, 255, 0),
-            new Color(128, 255, 0),
-            new Color(64, 255, 0),
-            new Color(0, 255, 0),
-            new Color(0, 255, 128),
-            new Color(0, 255, 255),
-            new Color(0, 128, 255),
-            new Color(0, 0, 255),
-            new Color(64, 0, 191),
-            new Color(128, 0, 255),
-            new Color(191, 0, 255)
+    private static final Color[] COLORES = {
+            Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW,
+            Color.ORANGE, Color.PINK, Color.CYAN, Color.MAGENTA,
+            Color.WHITE, Color.BLACK, Color.GRAY, Color.LIGHT_GRAY,
+            Color.DARK_GRAY, new Color(255, 0, 255), new Color(0, 255, 255), new Color(255, 255, 0)
     };
 
     private Piano piano;
 
-    public ReproductorMidi(){
-        this.piano= null;
+    public ReproductorMidi() {
+        this.piano = null;
     }
 
-    public void reproducir(String ruta){
+    public void conectar(Piano piano) {
+        this.piano = piano;
+    }
+
+    public void reproducir(String rutaMidi)  {
         try {
-            Sequence sq = MidiSystem.getSequence(new File(ruta));
-            Sequencer sr = MidiSystem.getSequencer();
+            Sequence sequence = MidiSystem.getSequence(new File(rutaMidi));
+            Sequencer sequencer = MidiSystem.getSequencer();
+            sequencer.open();
 
-            sr.open();
-            Transmitter tr = sr.getTransmitter();
+            Transmitter transmitter = sequencer.getTransmitter();
+            transmitter.setReceiver(this);
 
-            tr.setReceiver(this);
-            sr.setSequence(sq);
-            sr.start();
+            sequencer.setSequence(sequence);
+            sequencer.start();
 
-            wait(sq.getMicrosecondLength()/1000);
-            tr.close();
-            sr.close();
+            long duracion = sequence.getMicrosecondLength();
+            Thread.sleep(duracion / 1000);
 
+            transmitter.close();
+            sequencer.close();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } catch (InvalidMidiDataException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (MidiUnavailableException e) {
             throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void conectar(Piano p){
-        this.piano=p;
-    }
-
-
     @Override
     public void send(MidiMessage message, long timeStamp) {
-        if(message instanceof ShortMessage m){
-            if(m.getChannel()!=9){
-                m.getCommand();
-                Tecla tecla = this.piano.getTecla(m.getChannel(),m.getData1());
-                if(tecla!=null){
-                    int sm = m.getCommand();
-                    if(sm==ShortMessage.NOTE_ON){
-                        int volumen = m.getData2();
-                        if(volumen>0){
-                            tecla.setColorPulsado(COLORES[volumen-1]);
-                            tecla.pulsar();
-                            if(volumen==0 && sm==ShortMessage.NOTE_OFF){
-                                tecla.soltar();
-                                tecla.dibujar();
-                            }
-                        }
+        if (!(message instanceof ShortMessage)) return;
 
-                    }
-                }
+        ShortMessage sm = (ShortMessage) message;
+        int canal = sm.getChannel();
+
+        if (canal == 9) return;
+
+        int nota = sm.getData1();
+        if (piano == null) return;
+
+        Tecla tecla = piano.getTecla(canal,nota);
+        if (tecla == null) return;
+
+        int comando = sm.getCommand();
+        if (comando == ShortMessage.NOTE_ON) {
+            int velocidad = sm.getData2();
+            if (velocidad > 0) {
+                tecla.setColorPulsado(COLORES[canal % COLORES.length]);
+                tecla.pulsar();
+            } else {
+                tecla.soltar();
             }
+        } else if (comando == ShortMessage.NOTE_OFF) {
+            tecla.soltar();
         }
+
+        tecla.dibujar();
     }
 
     @Override
     public void close() {
-
     }
 }
