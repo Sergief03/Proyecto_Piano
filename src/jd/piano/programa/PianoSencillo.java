@@ -13,6 +13,7 @@ public class PianoSencillo extends Piano {
     private Map<Integer,Tecla> teclas;
 
     public PianoSencillo(int teclaInicial, int teclaFinal){
+        super();
         this.teclas = new HashMap<>();
         for (int i = teclaInicial; i <= teclaFinal; i++) {
             this.teclas.put(i, TeclaFactory.crearTecla(i));
@@ -28,10 +29,13 @@ public class PianoSencillo extends Piano {
     public void setPosicion(int x, int y) {
         int x1 = x;
         int y1 = y;
-        int posX = x;
         for (Tecla tecla : this.teclas.values()) {
-            tecla.setPosicion(posX, y);
-            posX += tecla.getAnchura();
+            if (tecla instanceof TeclaBlanca){
+                tecla.setPosicion(x1, y1);
+                x1+=tecla.getAnchura();
+            }else {
+                tecla.setPosicion(x1-tecla.getAnchura()/2, y1);
+            }
         }
     }
 
