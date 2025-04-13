@@ -10,10 +10,10 @@ import java.util.List;
 public class MultiPiano extends Piano {
     private List<PianoSencillo> pianos;
 
-    public MultiPiano(int t, int tf){
+    public MultiPiano(int teclaInicial, int teclaFinal) {
         this.pianos = new ArrayList<>();
-        for (int i=0;i<16;i++){
-            this.pianos.add(new PianoSencillo(t,tf));
+        for (int i = 0; i < 16; i++) {
+            this.pianos.add(new PianoSencillo(teclaInicial, teclaFinal));
         }
     }
 
@@ -28,9 +28,17 @@ public class MultiPiano extends Piano {
 
     @Override
     public void setPosicion(int x, int y) {
+        int pianoWidth = this.pianos.get(0).getAnchura();
+        int pianoHeight = this.pianos.get(0).getAltura();
 
-        for (int i=0;i<this.pianos.size();i++){
-            this.pianos.get(i).setPosicion(x,y);
+        for (int i = 0; i < this.pianos.size(); i++) {
+            int row = i / 2;
+            int col = i % 2;
+
+            int posX = x + (col * pianoWidth);
+            int posY = y + (row * pianoHeight);
+
+            this.pianos.get(i).setPosicion(posX, posY);
         }
     }
 
@@ -50,13 +58,11 @@ public class MultiPiano extends Piano {
 
     @Override
     public int getAnchura() {
-        int anchoPiano = this.pianos.get(0).getAnchura();
-        return anchoPiano * 2;
+        return this.pianos.get(0).getAnchura() * 2;
     }
 
     @Override
     public int getAltura() {
-        int altoPiano = this.pianos.get(0).getAltura();
-        return altoPiano * 8;
+        return this.pianos.get(0).getAltura() * 8;
     }
 }
