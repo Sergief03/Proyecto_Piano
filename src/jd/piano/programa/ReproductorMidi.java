@@ -46,7 +46,7 @@ public class ReproductorMidi implements Receiver {
             sr.setSequence(sq);
             sr.start();
 
-            wait(sq.getMicrosecondLength()/1000);
+            Thread.sleep(sq.getMicrosecondLength()/1000);
             tr.close();
             sr.close();
 
